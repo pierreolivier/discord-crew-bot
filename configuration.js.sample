@@ -1,13 +1,29 @@
 /**
-* Created by pierreolivier on 13/04/16.
-*/
+ * Created by pierreolivier on 12/04/16.
+ */
+var bot = require('./lib/discord-bot');
+
 var configuration = {};
 
 configuration.discord = {};
 
-configuration.discord.token = 'TOKEN';
+configuration.discord.token = '';
 
 configuration.bot = {};
+
+configuration.bot.commands = [
+    {
+        name: ['/help', '/bot'],
+        handle: function(args) {
+            return bot.getCommands();
+        }
+    }, {
+        name: '/list disrespect',
+        handle: function(args) {
+            return bot.getDisrespectDatabase().join(', ');
+        }
+    }
+];
 
 configuration.bot.meme = [
     {
@@ -15,13 +31,16 @@ configuration.bot.meme = [
         image: 'assets/vincent.jpg',
         textColor: '#ffffff',
         x: 40,
-        y: 260
+        y: 280
     },{
-        name: '/champignon',
-        image: 'assets/boris.png',
+        name: '/disrespect',
+        image: 'assets/po.jpg',
         textColor: '#ffffff',
         x: 20,
-        y: 160
+        y: 320,
+        handleText: function(text) {
+            return bot.addAndGetDisrespect(text);
+        }
     }
 ];
 
