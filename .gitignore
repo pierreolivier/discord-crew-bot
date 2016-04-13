@@ -34,4 +34,5 @@ node_modules
 
 assets/*.png
 assets/*.jpg
+assets/disrespect.json
 configuration.js
