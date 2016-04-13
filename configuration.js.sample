@@ -1,0 +1,28 @@
+/**
+* Created by pierreolivier on 13/04/16.
+*/
+var configuration = {};
+
+configuration.discord = {};
+
+configuration.discord.token = 'TOKEN';
+
+configuration.bot = {};
+
+configuration.bot.meme = [
+    {
+        name: '/victime',
+        image: 'assets/vincent.jpg',
+        textColor: '#ffffff',
+        x: 40,
+        y: 260
+    },{
+        name: '/champignon',
+        image: 'assets/boris.png',
+        textColor: '#ffffff',
+        x: 20,
+        y: 160
+    }
+];
+
+module.exports = configuration;
