@@ -36,3 +36,5 @@ assets/*.png
 assets/*.jpg
 assets/disrespect.json
 configuration.js
+
+remote-start.sh
