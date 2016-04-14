@@ -13,6 +13,8 @@ configuration.bot = {};
 
 configuration.bot.tts = 'http://host/tts.php?';
 
+configuration.bot.google = 'server key';
+
 configuration.bot.commands = [
     {
         name: ['/help', '/bot'],
@@ -25,18 +27,33 @@ configuration.bot.commands = [
             return bot.getDisrespectDatabase().join(', ');
         }
     }, {
+        name: '/join',
+        handle: function(args) {
+            bot.joinVoiceChannel('102400143973711872', args);
+            setTimeout(function() {
+                bot.tts('Moussa', 'Salut les gars !');
+            }, 400);
+            return '';
+        }
+    }, {
+        name: '/leave',
+        handle: function(args) {
+            bot.leaveVoiceChannel();
+            return '';
+        }
+    }, {
         name: '/bamboula',
         removeMessage: true,
         handle: function(args) {
-            bot.tts('Zozo', args);
+            bot.tts('Moussa', args);
 
             return '';
         }
     }, {
-        name: '/beyonce',
+        name: '/moussa',
         removeMessage: true,
         handle: function(args) {
-            bot.tts('Melodine', args);
+            bot.tts('Mendoo', args);
 
             return '';
         }
@@ -49,12 +66,24 @@ configuration.bot.commands = [
             return '';
         }
     }, {
-        name: '/join',
+        name: '/cool',
+        removeMessage: true,
         handle: function(args) {
-            bot.joinVoiceChannel('server id', args);
-            setTimeout(function() {
-                bot.tts('Zozo', 'Salut les gars !');
-            }, 500);
+            bot.tts('Becool', args);
+
+            return '';
+        }
+    }, {
+        name: '/youtube',
+        handle: function(args) {
+            bot.youtube(args);
+
+            return '';
+        }
+    }, {
+        name: '/tg',
+        handle: function(args) {
+            bot.stopVoice();
             return '';
         }
     }
