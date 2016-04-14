@@ -32,9 +32,12 @@ node_modules
 # Users Environment Variables
 .lock-wscript
 
+out/
 assets/*.png
 assets/*.jpg
+assets/*.mp3
 assets/disrespect.json
 configuration.js
 
 remote-start.sh
+remote-stop.sh

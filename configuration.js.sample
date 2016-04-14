@@ -7,9 +7,11 @@ var configuration = {};
 
 configuration.discord = {};
 
-configuration.discord.token = '';
+configuration.discord.token = 'token';
 
 configuration.bot = {};
+
+configuration.bot.tts = 'http://host/tts.php?';
 
 configuration.bot.commands = [
     {
@@ -22,6 +24,39 @@ configuration.bot.commands = [
         handle: function(args) {
             return bot.getDisrespectDatabase().join(', ');
         }
+    }, {
+        name: '/bamboula',
+        removeMessage: true,
+        handle: function(args) {
+            bot.tts('Zozo', args);
+
+            return '';
+        }
+    }, {
+        name: '/beyonce',
+        removeMessage: true,
+        handle: function(args) {
+            bot.tts('Melodine', args);
+
+            return '';
+        }
+    }, {
+        name: '/salope',
+        removeMessage: true,
+        handle: function(args) {
+            bot.tts('Electra', args);
+
+            return '';
+        }
+    }, {
+        name: '/join',
+        handle: function(args) {
+            bot.joinVoiceChannel('server id', args);
+            setTimeout(function() {
+                bot.tts('Zozo', 'Salut les gars !');
+            }, 500);
+            return '';
+        }
     }
 ];
 
@@ -33,13 +68,35 @@ configuration.bot.meme = [
         x: 40,
         y: 280
     },{
+        name: '/champignon',
+        image: 'assets/boris.jpg',
+        textColor: '#ffffff',
+        x: 20,
+        y: 100
+    },{
+        name: '/lunettes',
+        image: 'assets/pier.jpg',
+        textColor: '#ffffff',
+        x: 20,
+        y: 360
+    },{
+        name: '/gros',
+        image: 'assets/dybs.jpg',
+        textColor: '#ffffff',
+        x: 20,
+        y: 230
+    },{
         name: '/disrespect',
         image: 'assets/po.jpg',
         textColor: '#ffffff',
         x: 20,
         y: 320,
         handleText: function(text) {
-            return bot.addAndGetDisrespect(text);
+            if (text.indexOf('--force') != -1) {
+                return text.replace('--force', '');
+            } else {
+                return bot.addAndGetDisrespect(text);
+            }
         }
     }
 ];
