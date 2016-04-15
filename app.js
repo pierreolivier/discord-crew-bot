@@ -1,4 +1,4 @@
-var bot = require('./lib/discord-bot');
+var bot = require('./lib/bot');
 var log = require('util').log;
 
 exports.run = function() {
