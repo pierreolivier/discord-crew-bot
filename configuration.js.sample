@@ -1,95 +1,94 @@
 /**
  * Created by pierreolivier on 12/04/16.
  */
-var bot = require('./lib/discord-bot');
+var disrespect = require('./lib/bot.disrespect');
 
 var configuration = {};
 
 configuration.discord = {};
+configuration.discord.tts = 'https://URL/index.php?method=redirect&';
+configuration.discord.google = 'server api key';
 
-configuration.discord.token = 'token';
+configuration.bots = [];
 
-configuration.bot = {};
-
-configuration.bot.tts = 'http://host/tts.php?';
-
-configuration.bot.google = 'server key';
-
-configuration.bot.commands = [
+var bamboula = {};
+bamboula.init = function(bot) {
+    bot.api.joinVoiceChannel('102400143973711872', 'La plèbe');
+};
+bamboula.voiceConnected = function(bot) {
+    bot.features.tts('Moussa', 'Bonjour !');
+};
+bamboula.onNewUser = function(bot, username) {
+    bot.features.tts('Moussa', 'Salut ' + username + ' !');
+};
+bamboula.token = 'TOKEN';
+bamboula.commands = [
     {
         name: ['/help', '/bot'],
-        handle: function(args) {
-            return bot.getCommands();
+        handle: function(bot, args) {
+            return bot.api.commands();
         }
     }, {
         name: '/list disrespect',
-        handle: function(args) {
-            return bot.getDisrespectDatabase().join(', ');
+        handle: function(bot, args) {
+            return disrespect.getDisrespectDatabase().join(', ');
         }
     }, {
         name: '/join',
-        handle: function(args) {
-            bot.joinVoiceChannel('102400143973711872', args);
+        handle: function(bot, args) {
+            bot.api.joinVoiceChannel('102400143973711872', args);
             setTimeout(function() {
-                bot.tts('Moussa', 'Salut les gars !');
+                bot.features.tts('Moussa', 'Salut les gars !');
             }, 400);
             return '';
         }
     }, {
         name: '/leave',
-        handle: function(args) {
-            bot.leaveVoiceChannel();
+        handle: function(bot, args) {
+            bot.api.leaveVoiceChannel();
             return '';
         }
     }, {
         name: '/bamboula',
         removeMessage: true,
-        handle: function(args) {
-            bot.tts('Moussa', args);
+        handle: function(bot, args) {
+            bot.features.tts('Moussa', args);
 
             return '';
         }
     }, {
         name: '/moussa',
         removeMessage: true,
-        handle: function(args) {
-            bot.tts('Mendoo', args);
+        handle: function(bot, args) {
+            bot.features.tts('Mendoo', args);
 
             return '';
         }
     }, {
-        name: '/salope',
+        name: '/beyonce',
         removeMessage: true,
-        handle: function(args) {
-            bot.tts('Electra', args);
+        handle: function(bot, args) {
+            bot.features.tts('Melodine', args);
 
             return '';
         }
-    }, {
+    } {
         name: '/cool',
         removeMessage: true,
-        handle: function(args) {
-            bot.tts('Becool', args);
-
-            return '';
-        }
-    }, {
-        name: '/youtube',
-        handle: function(args) {
-            bot.youtube(args);
+        handle: function(bot, args) {
+            bot.features.tts('Becool', args);
 
             return '';
         }
     }, {
         name: '/tg',
-        handle: function(args) {
-            bot.stopVoice();
+        handle: function(bot, args) {
+            bot.api.stopVoice();
             return '';
         }
     }
 ];
-
-configuration.bot.meme = [
+bamboula.meme = [
     {
         name: '/victime',
         image: 'assets/vincent.jpg',
@@ -120,14 +119,61 @@ configuration.bot.meme = [
         textColor: '#ffffff',
         x: 20,
         y: 320,
-        handleText: function(text) {
+        handleText: function(bot, text) {
             if (text.indexOf('--force') != -1) {
                 return text.replace('--force', '');
             } else {
-                return bot.addAndGetDisrespect(text);
+                return disrespect.addAndGetDisrespect(text);
             }
         }
     }
 ];
+configuration.bots.push(bamboula);
+
+var music = {};
+music.token = 'TOKEN';
+music.init = function(bot) {
+    bot.api.joinVoiceChannel('102400143973711872', 'La plèbe');
+};
+music.voiceConnected = function(bot) {
+    bot.features.tts('Melodine', 'Bonjour !');
+};
+music.commands = [
+    {
+        name: ['/help', '/bot'],
+        handle: function(bot, args) {
+            return bot.api.commands();
+        }
+    }, {
+        name: '/join',
+        handle: function(bot, args) {
+            bot.api.joinVoiceChannel('102400143973711872', args);
+            setTimeout(function() {
+                bot.features.tts('Melodine', 'Salut les gars !');
+            }, 400);
+            return '';
+        }
+    }, {
+        name: '/leave',
+        handle: function(bot, args) {
+            bot.api.leaveVoiceChannel();
+            return '';
+        }
+    }, {
+        name: '/youtube',
+        handle: function(bot, args) {
+            bot.features.youtube(args);
+
+            return '';
+        }
+    }, {
+        name: '/tg',
+        handle: function(bot, args) {
+            bot.api.stopVoice();
+            return '';
+        }
+    }
+];
+configuration.bots.push(music);
 
 module.exports = configuration;
