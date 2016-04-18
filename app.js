@@ -8,6 +8,15 @@ exports.run = function() {
     bot.run();
 };
 
+exports.stop = function() {
+    log('Bot stopping...');
+
+    bot.stop();
+    setTimeout(function() {
+        process.exit(0);
+    }, 1000);
+};
+
 process.on('uncaughtException', function ( err ) {
     log('Error:');
     console.error(err.stack);
@@ -18,19 +27,10 @@ process.on('uncaughtException', function ( err ) {
     bot.run();
 });
 
-function stop() {
-    log('Bot stoping...');
-
-    bot.stop();
-    setTimeout(function() {
-        process.exit(0);
-    }, 1000);
-}
-
 process.on('SIGINT', function() {
-    stop();
+    exports.stop();
 });
 
 process.on('SIGTERM', function() {
-    stop();
+    exports.stop();
 });

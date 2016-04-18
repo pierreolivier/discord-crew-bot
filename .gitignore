@@ -39,5 +39,7 @@ assets/*.mp3
 assets/disrespect.json
 configuration.js
 
+assets.zip
+
 remote-start.sh
 remote-stop.sh
