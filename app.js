@@ -1,6 +1,9 @@
 var bot = require('./lib/bot');
 var log = require('util').log;
 
+/**
+ * Start the bot
+ */
 exports.run = function() {
     console.log('');
     log('Bot starting...');
@@ -8,6 +11,9 @@ exports.run = function() {
     bot.run();
 };
 
+/**
+ * Stop the bot
+ */
 exports.stop = function() {
     log('Bot stopping...');
 
@@ -17,16 +23,24 @@ exports.stop = function() {
     }, 1000);
 };
 
+/**
+ * On error
+ */
 process.on('uncaughtException', function ( err ) {
     log('Error:');
     console.error(err.stack);
     log('Bot restarting...');
 
-    bot.stop();
+    setTimeout(function() {
+        bot.stop();
 
-    bot.run();
+        bot.run();
+    }, 1000);
 });
 
+/**
+ * Events
+ */
 process.on('SIGINT', function() {
     exports.stop();
 });
