@@ -12,8 +12,13 @@ configuration.discord.google = 'server api key';
 configuration.bots = [];
 
 var bamboula = {};
+bamboula.token = 'TOKEN';
 bamboula.init = function(bot) {
     bot.api.joinVoiceChannel('102400143973711872', 'La plèbe');
+};
+bamboula.onUserConnected = function(bot, user) {
+    bot.api.sendMessage('102400143973711872', 'general', 'bonjour ' + user.username);
+    bot.features.tts('Moussa', user.username + ' est de retour !');
 };
 bamboula.voiceConnected = function(bot) {
     bot.features.tts('Moussa', 'Bonjour !');
@@ -21,7 +26,9 @@ bamboula.voiceConnected = function(bot) {
 bamboula.onNewUser = function(bot, username) {
     bot.features.tts('Moussa', 'Salut ' + username + ' !');
 };
-bamboula.token = 'TOKEN';
+bamboula.onNotifyVoice = function(bot, channelName, username) {
+    bot.api.sendMessage('102400143973711872', 'voice_stalker', username + ' just joined ' + channelName);
+};
 bamboula.commands = [
     {
         name: ['/help', '/bot'],
@@ -83,6 +90,7 @@ bamboula.commands = [
     }, {
         name: '/tg',
         handle: function(bot, args) {
+            bot.features.stopTts();
             bot.api.stopVoice();
             return '';
         }
@@ -138,6 +146,9 @@ music.init = function(bot) {
 music.voiceConnected = function(bot) {
     bot.features.tts('Melodine', 'Bonjour !');
 };
+music.onYoutube = function(bot, url) {
+    bot.api.sendMessage('102400143973711872', 'bot_youtube', url);
+};
 music.commands = [
     {
         name: ['/help', '/bot'],
@@ -161,6 +172,7 @@ music.commands = [
         }
     }, {
         name: '/youtube',
+        removeMessage: true,
         handle: function(bot, args) {
             bot.features.youtube(args);
 
