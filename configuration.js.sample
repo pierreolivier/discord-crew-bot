@@ -47,8 +47,12 @@ bamboula.filter.meme.deny = function(bot, e) {
 bamboula.commands = [
     {
         name: ['/help', '/bot'],
-        handle: function(bot, args) {
-            return bot.api.commands();
+        handle: function(bot, args, e) {
+            if (e.message.channel_id == '102400143973711872') {
+                return bot.api.meme() + "\n" + bot.api.commands();
+            } else {
+                return bot.api.commands();
+            }
         }
     }, {
         name: '/list disrespect',
@@ -57,7 +61,8 @@ bamboula.commands = [
         }
     }, {
         name: '/join',
-        handle: function(bot, args, guild) {
+        handle: function(bot, args, e) {
+            var guild = bot.api.getGuildByChannelId(e.message.channel_id);
             bot.api.joinVoiceChannel(guild.id, args);
             setTimeout(function() {
                 bot.features.tts('Moussa', 'Salut les gars !');
