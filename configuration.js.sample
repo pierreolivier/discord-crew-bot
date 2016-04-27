@@ -8,6 +8,9 @@ var configuration = {};
 configuration.discord = {};
 configuration.discord.tts = 'https://URL/index.php?method=redirect&';
 configuration.discord.google = 'server api key';
+configuration.discord.wiki = {};
+configuration.discord.wiki.host = 'fr.wikipedia.org';
+configuration.discord.wiki.random = '/wiki/Sp%C3%A9cial:Page_au_hasard';
 
 configuration.bots = [];
 
@@ -23,11 +26,23 @@ bamboula.onUserConnected = function(bot, user) {
 bamboula.voiceConnected = function(bot) {
     bot.features.tts('Moussa', 'Bonjour !');
 };
-bamboula.onNewUser = function(bot, username) {
+bamboula.onNewVoiceUser = function(bot, username) {
     bot.features.tts('Moussa', 'Salut ' + username + ' !');
 };
 bamboula.onNotifyVoice = function(bot, channelName, username) {
     bot.api.sendMessage('102400143973711872', 'voice_stalker', username + ' just joined ' + channelName);
+};
+bamboula.onWiki = function(bot, text, url) {
+    bot.features.tts('Moussa', text);
+    bot.api.sendMessage('102400143973711872', 'bot_youtube', url);
+};
+bamboula.filter = {};
+bamboula.filter.meme = {};
+bamboula.filter.meme.compare = function(bot, e) {
+    return e.message.channel_id == '102400143973711872';
+};
+bamboula.filter.meme.deny = function(bot, e) {
+    bot.features.meme(e, 'non chien', 'assets/po.jpg', '#ffffff', 20, 320);
 };
 bamboula.commands = [
     {
@@ -42,8 +57,8 @@ bamboula.commands = [
         }
     }, {
         name: '/join',
-        handle: function(bot, args) {
-            bot.api.joinVoiceChannel('102400143973711872', args);
+        handle: function(bot, args, guild) {
+            bot.api.joinVoiceChannel(guild.id, args);
             setTimeout(function() {
                 bot.features.tts('Moussa', 'Salut les gars !');
             }, 400);
@@ -79,7 +94,7 @@ bamboula.commands = [
 
             return '';
         }
-    } {
+    }, {
         name: '/cool',
         removeMessage: true,
         handle: function(bot, args) {
@@ -92,6 +107,13 @@ bamboula.commands = [
         handle: function(bot, args) {
             bot.features.stopTts();
             bot.api.stopVoice();
+            return '';
+        }
+    }, {
+        name: '/wiki',
+        removeMessage: true,
+        handle: function(bot, args) {
+            bot.features.wikipedia(args);
             return '';
         }
     }
@@ -157,8 +179,8 @@ music.commands = [
         }
     }, {
         name: '/join',
-        handle: function(bot, args) {
-            bot.api.joinVoiceChannel('102400143973711872', args);
+        handle: function(bot, args, guild) {
+            bot.api.joinVoiceChannel(guild.id, args);
             setTimeout(function() {
                 bot.features.tts('Melodine', 'Salut les gars !');
             }, 400);
