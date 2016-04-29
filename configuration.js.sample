@@ -184,7 +184,8 @@ music.commands = [
         }
     }, {
         name: '/join',
-        handle: function(bot, args, guild) {
+        handle: function(bot, args, e) {
+            var guild = bot.api.getGuildByChannelId(e.message.channel_id);
             bot.api.joinVoiceChannel(guild.id, args);
             setTimeout(function() {
                 bot.features.tts('Melodine', 'Salut les gars !');

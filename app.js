@@ -34,7 +34,10 @@ process.on('uncaughtException', function ( err ) {
     setTimeout(function() {
         bot.stop();
 
-        bot.run();
+        // bot.run();
+        setTimeout(function() {
+            process.exit(0);
+        }, 3000);
     }, 1000);
 });
 
