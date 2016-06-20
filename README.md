@@ -15,7 +15,7 @@ INSTALL
 
 2) install nodejs packages
 
-	npm update
+	npm install
 
 
 
